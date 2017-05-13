@@ -13,5 +13,5 @@ public class NoteAttribute {
     public static int cycleicon;
     public static final String NOTEBACKGROUND="noteBackground";
     public static final String HEADCOLOR ="headcolor";
-    public static final String CYCLE="cycle";
+    public static final String CYCLE="cycle";//
 }
