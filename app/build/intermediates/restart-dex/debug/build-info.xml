@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="x86"
-    api-level="23"
-    density="hdpi"
+    abi="arm64-v8a,armeabi-v7a,armeabi"
+    api-level="22"
+    density="xxhdpi"
     format="7"
-    timestamp="549348398217910"
-    token="-2378799523511471877" >
+    timestamp="914561103282331"
+    token="2733296335931734062" >
 
     <task
         name="javac"
-        duration="1244" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="175" />
+        duration="0" />
     <task
         name="verifier"
-        duration="35" />
+        duration="0" />
 
     <artifact
-        location="E:\gitrepos\NotePad\app\build\outputs\apk\app-debug.apk"
-        type="MAIN" />
+        location="E:\AndroidStudio work\NotePad\app\build\intermediates\res\resources-debug.ap_"
+        type="RESOURCES" />
 
-    <build timestamp="549348398217910" >
+    <build timestamp="913873889724240" >
         <artifact
-            location="E:\gitrepos\NotePad\app\build\outputs\apk\app-debug.apk"
+            location="E:\AndroidStudio work\NotePad\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
+    </build>
+    <build timestamp="914227246455388" >
+        <artifact
+            location="E:\AndroidStudio work\NotePad\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="914561103282331" >
+        <artifact
+            location="E:\AndroidStudio work\NotePad\app\build\intermediates\res\resources-debug.ap_"
+            type="RESOURCES" />
     </build>
 
 </instant-run>

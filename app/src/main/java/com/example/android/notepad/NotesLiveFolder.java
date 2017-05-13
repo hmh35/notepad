@@ -25,89 +25,81 @@ import android.os.Bundle;
 import android.provider.LiveFolders;
 
 /**
- * This Activity creates a live folder Intent and
- * sends it back to HOME. From the data in the Intent, HOME creates a live folder and displays
- * its icon in the Home view.
- * When the user clicks the icon, Home uses the data it got from the Intent to retrieve information
- * from a content provider and display it in a View.
+ * 此活动将创建一个活动文件夹，并将其发送回HOME。从意图中的数据中，HOME创建一个live文件夹并在HOME
+ * 视图中显示它的图标。当用户单击该图标时，Home使用来自于从一个内容提供方获取信息的意图所获得的数
+ * 据，并在视图中显示它。
  *
- * The intent filter for this Activity is set to ACTION_CREATE_LIVE_FOLDER, which
- * HOME sends in response to a long press and selection of Live Folder.
+ * 此活动的意图过滤器设置为action_create_live_文件夹，该文件夹将响应一个长时间的媒体和选择的Live文件夹。
  */
 public class NotesLiveFolder extends Activity {
 
     /**
-     * All of the work is done in onCreate(). The Activity doesn't actually display a UI.
-     * Instead, it sets up an Intent and returns it to its caller (the HOME activity).
+     * 所有的工作都是在onCreate()中完成的。活动实际上并没有显示UI。相反，它设置了一个意图并将
+     * 其返回给它的调用者(家庭活动)。
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         /*
-         * Gets the incoming Intent and its action. If the incoming Intent was
-         * ACTION_CREATE_LIVE_FOLDER, then create an outgoing Intent with the
-         * necessary data and send back OK. Otherwise, send back CANCEL.
+         * 获取传入的意图及其操作。如果传入意图是action_create_live_文件夹，然后创建一个带有
+         * 所需数据的传出意图，然后发送OK。否则,返回取消。
          */
         final Intent intent = getIntent();
         final String action = intent.getAction();
 
         if (LiveFolders.ACTION_CREATE_LIVE_FOLDER.equals(action)) {
 
-            // Creates a new Intent.
+            // 创建一个新Intent
             final Intent liveFolderIntent = new Intent();
 
             /*
-             * The following statements put data into the outgoing Intent. Please see
-             * {@link android.provider.LiveFolders for a detailed description of these
-             * data values. From this data, HOME sets up a live folder.
+             * 下面的语句将数据放入传出的意图中。请参阅{ @link android.provider。
+             * live文件夹对这些数据值进行详细描述。从这个数据中，HOME设置了一个活文件夹。
              */
-            // Sets the URI pattern for the content provider backing the folder.
+            // 为支持文件夹的内容提供程序设置URI模式。
             liveFolderIntent.setData(NotePad.Notes.LIVE_FOLDER_URI);
 
-            // Adds the display name of the live folder as an Extra string.
+            // 添加live文件夹的显示名称作为额外的字符串。
             String foldername = getString(R.string.live_folder_name);
             liveFolderIntent.putExtra(LiveFolders.EXTRA_LIVE_FOLDER_NAME, foldername);
 
-            // Adds the display icon of the live folder as an Extra resource.
+            //添加live文件夹的显示图标作为额外的资源。
             ShortcutIconResource foldericon =
                 Intent.ShortcutIconResource.fromContext(this, R.drawable.live_folder_notes);
             liveFolderIntent.putExtra(LiveFolders.EXTRA_LIVE_FOLDER_ICON, foldericon);
 
-            // Add the display mode of the live folder as an integer. The specified
-            // mode causes the live folder to display as a list.
+            //将live文件夹的显示模式添加为整数。指定的模式使live文件夹显示为列表。
             liveFolderIntent.putExtra(
                     LiveFolders.EXTRA_LIVE_FOLDER_DISPLAY_MODE,
                     LiveFolders.DISPLAY_MODE_LIST);
 
             /*
-             * Adds a base action for items in the live folder list, as an Intent. When the
-             * user clicks an individual note in the list, the live folder fires this Intent.
+             * 为活动文件夹列表中的项目添加一个基本动作，作为一种意图。当用户在列表中单击单个
+             * 的注释时，live文件夹就会触发这个意图。
              *
-             * Its action is ACTION_EDIT, so it triggers the Note Editor activity. Its
-             * data is the URI pattern for a single note identified by its ID. The live folder
-             * automatically adds the ID value of the selected item to the URI pattern.
+             * 它的操作是ACTION_EDIT，因此它触发注释编辑器活动。它的数据是由它的ID标识的单个注释
+             * 的URI模式。live文件夹自动将所选项目的ID值添加到URI模式。
              *
-             * As a result, Note Editor is triggered and gets a single note to retrieve by ID.
+             * 结果，注释编辑器被触发，并得到一个由ID检索的单音符。
              */
             Intent returnIntent
                     = new Intent(Intent.ACTION_EDIT, NotePad.Notes.CONTENT_ID_URI_PATTERN);
             liveFolderIntent.putExtra(LiveFolders.EXTRA_LIVE_FOLDER_BASE_INTENT, returnIntent);
 
-            /* Creates an ActivityResult object to propagate back to HOME. Set its result indicator
-             * to OK, and sets the returned Intent to the live folder Intent that was just
-             * constructed.
+            /* 创建一个ActivityResult对象来传播回HOME。将其结果指示器设置为OK，并将返回的意图
+            设置为刚刚构建的live文件夹意图。
              */
             setResult(RESULT_OK, liveFolderIntent);
 
         } else {
 
-            // If the original action was not ACTION_CREATE_LIVE_FOLDER, creates an
-            // ActivityResult with the indicator set to CANCELED, but do not return an Intent
+            // 如果最初的操作不是ACTION_CREATE_LIVE_FOLDER，则会创建一个ActivityResult，指示符将
+            // 被取消，但不返回一个意图
             setResult(RESULT_CANCELED);
         }
 
-        // Closes the Activity. The ActivityObject is propagated back to the caller.
+        //关闭活动。ActivityObject被传播回调用方。
         finish();
     }
 }

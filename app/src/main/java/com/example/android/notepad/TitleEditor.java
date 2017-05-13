@@ -25,106 +25,97 @@ import android.view.View;
 import android.widget.EditText;
 
 /**
- * This Activity allows the user to edit a note's title. It displays a floating window
- * containing an EditText.
+ * 这个活动允许用户编辑一个音符的标题。它显示一个包含EditText的浮动窗口。
  *
- * NOTE: Notice that the provider operations in this Activity are taking place on the UI thread.
- * This is not a good practice. It is only done here to make the code more readable. A real
- * application should use the {@link android.content.AsyncQueryHandler}
- * or {@link android.os.AsyncTask} object to perform operations asynchronously on a separate thread.
+ * 注意:注意，此活动中的提供者操作在UI线程上进行。这不是一个好的做法。这只是为了让代码更容易阅读。
+ * 一个真正的应用程序应该使用{ @ linkandroid.content . content。AsyncQueryHandler }
+ * 或{ @link android.os。AsyncTask }对象在单独的线程上异步执行操作。
  */
 public class TitleEditor extends Activity {
 
     /**
-     * This is a special intent action that means "edit the title of a note".
+     * 这是一个特殊的意图动作，意思是“编辑一个音符的标题”。
      */
     public static final String EDIT_TITLE_ACTION = "com.android.notepad.action.EDIT_TITLE";
 
-    // Creates a projection that returns the note ID and the note contents.
+    // 创建一个返回注释ID和注释内容的投影。
     private static final String[] PROJECTION = new String[] {
             NotePad.Notes._ID, // 0
             NotePad.Notes.COLUMN_NAME_TITLE, // 1
     };
 
-    // The position of the title column in a Cursor returned by the provider.
+    //提供者返回的游标中标题列的位置。
     private static final int COLUMN_INDEX_TITLE = 1;
 
-    // A Cursor object that will contain the results of querying the provider for a note.
+    // 一个游标对象，该对象将包含查询提供程序的结果。
     private Cursor mCursor;
 
-    // An EditText object for preserving the edited title.
+    //保存编辑标题的EditText对象。
     private EditText mText;
 
-    // A URI object for the note whose title is being edited.
+    //用于编辑标题的URI对象。
     private Uri mUri;
 
     /**
-     * This method is called by Android when the Activity is first started. From the incoming
-     * Intent, it determines what kind of editing is desired, and then does it.
+     * 当活动开始时，这个方法被Android调用。从传入的意图中，它决定了需要什么样的编辑，然后执行它。
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the View for this Activity object's UI.
+        // 为这个活动对象的UI设置视图。
         setContentView(R.layout.title_editor);
 
-        // Get the Intent that activated this Activity, and from it get the URI of the note whose
-        // title we need to edit.
+        // 获取激活该活动的意图，并从中获取需要编辑的标题的URI。
         mUri = getIntent().getData();
 
         /*
-         * Using the URI passed in with the triggering Intent, gets the note.
+         * 使用带有触发意图的URI，得到通知。
          *
-         * Note: This is being done on the UI thread. It will block the thread until the query
-         * completes. In a sample app, going against a simple provider based on a local database,
-         * the block will be momentary, but in a real app you should use
-         * android.content.AsyncQueryHandler or android.os.AsyncTask.
+         * 注意:这是在UI线程上完成的。它将阻塞线程，直到查询完成。在一个示例应用程序中，
+         * 根据本地数据库对一个简单的提供者进行攻击，这个块将是短暂的，但是在一个真正的应用程序中，
+         * 你应该使用android.content。AsyncQueryHandler或android.os.AsyncTask。
          */
 
         mCursor = managedQuery(
-            mUri,        // The URI for the note that is to be retrieved.
-            PROJECTION,  // The columns to retrieve
-            null,        // No selection criteria are used, so no where columns are needed.
-            null,        // No where columns are used, so no where values are needed.
-            null         // No sort order is needed.
+            mUri,        // 要检索的注释的URI。
+            PROJECTION,  // 列检索
+            null,        //没有使用选择标准，因此不需要列。
+            null,        // 不使用列，所以不需要值。
+            null         // 不需要排序。
         );
 
-        // Gets the View ID for the EditText box
+        // 获取EditText框的视图ID
         mText = (EditText) this.findViewById(R.id.title);
     }
 
     /**
-     * This method is called when the Activity is about to come to the foreground. This happens
-     * when the Activity comes to the top of the task stack, OR when it is first starting.
+     * 当活动即将到达前台时，调用此方法。当活动进入任务堆栈的顶部时，或者在第一次启动时，就会出现这种情况。
      *
-     * Displays the current title for the selected note.
+     * 显示选中的注释的当前标题。
      */
     @Override
     protected void onResume() {
         super.onResume();
 
-        // Verifies that the query made in onCreate() actually worked. If it worked, then the
-        // Cursor object is not null. If it is *empty*, then mCursor.getCount() == 0.
+        // 验证在onCreate()中生成的查询实际上是有效的。如果它起作用，那么游标对象不是null。
+        // 如果它是*空*，那么mCursor.getCount()= = 0。
         if (mCursor != null) {
 
-            // The Cursor was just retrieved, so its index is set to one record *before* the first
-            // record retrieved. This moves it to the first record.
+            // 光标刚刚被检索到，所以它的索引被设置为一个记录* * * * * * *。这使它达到了第一个记录。
             mCursor.moveToFirst();
 
-            // Displays the current title text in the EditText object.
+            // 在EditText对象中显示当前的标题文本。
             mText.setText(mCursor.getString(COLUMN_INDEX_TITLE));
         }
     }
 
     /**
-     * This method is called when the Activity loses focus.
+     *当活动失去焦点时调用此方法。
      *
-     * For Activity objects that edit information, onPause() may be the one place where changes are
-     * saved. The Android application model is predicated on the idea that "save" and "exit" aren't
-     * required actions. When users navigate away from an Activity, they shouldn't have to go back
-     * to it to complete their work. The act of going away should save everything and leave the
-     * Activity in a state where Android can destroy it if necessary.
+     * 对于编辑信息的活动对象，onPause()可能是保存更改的地方。Android应用程序模型基于“保存”和
+     * “退出”不需要操作的概念。当用户离开某个活动时，他们不应该返回去完成他们的工作。离开的行为
+     * 应该把一切都保存下来，并把活动留在一个Android可以在必要的情况下摧毁它的状态。
      *
      * Updates the note with the text currently in the text box.
      */
@@ -132,30 +123,29 @@ public class TitleEditor extends Activity {
     protected void onPause() {
         super.onPause();
 
-        // Verifies that the query made in onCreate() actually worked. If it worked, then the
-        // Cursor object is not null. If it is *empty*, then mCursor.getCount() == 0.
+        // 验证在onCreate()中生成的查询实际上是有效的。如果它起作用，那么游标对象不是null。
+        // 如果它是*空*，那么mCursor.getCount()= = 0。
 
         if (mCursor != null) {
 
-            // Creates a values map for updating the provider.
+            //创建用于更新提供者的值映射。
             ContentValues values = new ContentValues();
 
-            // In the values map, sets the title to the current contents of the edit box.
+            // 在values映射中，将标题设置为编辑框的当前内容。
             values.put(NotePad.Notes.COLUMN_NAME_TITLE, mText.getText().toString());
 
             /*
-             * Updates the provider with the note's new title.
+             * 使用note的新标题更新提供程序。
              *
-             * Note: This is being done on the UI thread. It will block the thread until the
-             * update completes. In a sample app, going against a simple provider based on a
-             * local database, the block will be momentary, but in a real app you should use
-             * android.content.AsyncQueryHandler or android.os.AsyncTask.
+             * 注意:这是在UI线程上完成的。它将阻塞线程，直到更新完成。在一个示例应用程序中，根据
+             * 本地数据库对一个简单的提供者进行攻击，这个块将是短暂的，但是在一个真正的应用程序中，
+             * 你应该使用android.content。AsyncQueryHandler或android.os.AsyncTask。
              */
             getContentResolver().update(
-                mUri,    // The URI for the note to update.
-                values,  // The values map containing the columns to update and the values to use.
-                null,    // No selection criteria is used, so no "where" columns are needed.
-                null     // No "where" columns are used, so no "where" values are needed.
+                mUri,    // 
+                values,  // 值映射包含要更新的列和要使用的值。
+                null,    // 没有使用选择标准，因此不需要“where”列。
+                null     //不使用“where”列，所以不需要“where”值。
             );
 
         }
