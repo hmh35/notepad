@@ -1,10 +1,10 @@
 # NotePad
 =========<br>
 ## NotePad的拓展<br>
-  ### *添加查询功能（根据标题）<br>
-  ### *NoteList中显示条目增加时间戳显示<br>
-  ### *更改记事本的背景<br>
-  ### *UI美化<br>
+  *添加查询功能（根据标题）<br>
+  *NoteList中显示条目增加时间戳显示<br>
+  *更改记事本的背景<br>
+  *UI美化<br>
 ## 添加的代码<br>
   ### *查询功能：添加了addSearchView函数<br>
   ### *时间戳显示：在NoteEditor中的updateNote函数中获取到当前时间，再添加到values当中以在显示条目当中显示，<br>
