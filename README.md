@@ -1,28 +1,18 @@
 # NotePad
-This is an AndroidStudio rebuild of google SDK sample NotePad
-
-1、NotePad的拓展
-   a、添加查询功能（根据标题）
-   
-   b、NoteList中显示条目增加时间戳显示
-   
-   c、更改记事本的背景
-   
-   d、UI美化
-   
-2、添加的代码
-
-   a、查询功能：添加了addSearchView函数
-   
-   b、时间戳显示：在NoteEditor中的updateNote函数中获取到当前时间，再添加到values当中以在显示条目当中显示，
-   
-      最终显示的是最后修改时间
+=========
+##NotePad的拓展<br>
+   a、添加查询功能（根据标题）<br>
+   b、NoteList中显示条目增加时间戳显示<br>
+   c、更改记事本的背景<br>
+   d、UI美化<br>
+##添加的代码
+   a、查询功能：添加了addSearchView函数<br>
+   b、时间戳显示：在NoteEditor中的updateNote函数中获取到当前时间，再添加到values当中以在显示条目当中显示，<br>
+      最终显示的是最后修改时间  <br>
+   c、更改记事本的背景：<br>
+      添加浮动按钮来设置当前的背景颜色，所使用的背景渐变颜色来自于自己写的XML文件<br>
       
-   c、更改记事本的背景：
-   
-      添加浮动按钮来设置当前的背景颜色，所使用的背景渐变颜色来自于自己写的XML文件
-      
-3、功能演示
+##功能演示
 
   a）notepad主界面：设置了五种背景颜色，这里简单给出三种,右下角的是浮动按钮，点击浮动按钮，便会弹出背景颜色以供选择
   
