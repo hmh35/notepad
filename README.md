@@ -118,7 +118,7 @@
     };
   ```
   3)对NoteEditor.java中的updateNote尽兴修改，获取当前时间戳以及将时间戳转化格式
-  ```
+ ```
   private final void updateNote(String text, String title) {
 
         // 设置映射，以包含在提供程序中更新的值。
@@ -174,7 +174,7 @@
             );
     }
   ```
-  3)修改SimpleCursorAdapter的dataColumns和viewIDs的相关值。
+  4)修改SimpleCursorAdapter的dataColumns和viewIDs的相关值。
   ```java
    String[] dataColumns = { NotePad.Notes.COLUMN_NAME_TITLE ,NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE} ;
         int[] viewIDs = { R.id.tv_title,R.id.tv_data };
